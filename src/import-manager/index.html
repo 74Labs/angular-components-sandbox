@@ -1,0 +1,10 @@
+<div class="row">
+  <div class="col-lg-2">
+    <div class="list-group">
+      <button type="button" class="list-group-item clickable" ng-repeat="import in $ctrl.imports" ng-click="$ctrl.selectImport(import)">{{ import.properties.name }}</button>
+    </div>
+  </div>
+  <div class="col">
+    <import-manager import="$ctrl.import"/>
+  </div>
+</div>

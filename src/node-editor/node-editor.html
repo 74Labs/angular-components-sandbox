@@ -1,0 +1,148 @@
+<div>
+
+  <fieldset>
+    <legend>General</legend>
+    <div class="form-row">
+      <!-- <div class="form-group col-md-4 col-sm-12 col-xs-12 order-md-1 order-sm-2 order-xs-2">
+          <label for="profileSelect">Profile</label>
+          <select id="profileSelect" class="form-control custom-select" ng-model="selectedProfileIndex" ng-change="changeProfile()">
+            <option ng-repeat="(index, profile) in profiles" ng-value="index">{{ profile.name }}</option>
+          </select>
+        </div> -->
+      <div class="form-group col-lg-4 col-md-6 col-sm-6 col-xs-12 order-md-2 order-sm-3 order-xs-3">
+        <label for="typeSelect">Node Type</label>
+        <div class="input-group">
+          <select id="typeSelect" class="form-control custom-select" ng-model="node.type" ng-class="{'input-info': node.type != original.type}">
+            <option ng-repeat="type in types | orderBy: type">{{ type }}</option>
+          </select>
+          <span ng-if="node.type != original.type" class="input-group-btn">
+            <button class="btn btn-outline-info" ng-click="revertType()">Revert to <strong>{{ original.type }}</strong></button>
+          </span>
+        </div>
+        <small ng-if="node.type == original.type" class="form-text text-muted">Node type is the same as original</small>
+        <small ng-if="node.type != original.type" class="form-text text-info">Node type is different than original</small>
+        <small ng-if=""></small>
+      </div>
+      <div class="form-group col-lg-1 col-md-2 col-sm-12 col-xs-12 order-md-3 order-sm-1 order-xs-1">
+        <label>ID</label>
+        <p class="form-control-plaintext">{{ node.id }}</p>
+      </div>
+    </div>
+  </fieldset>
+
+  <fieldset>
+
+    <nav class="nav nav-pills nav-fill mb-3" id="node" role="tablist">
+      <a class="nav-item nav-link active p-2" id="properties-tab" data-toggle="tab" href="#nav-properties" role="tab" aria-controls="nav-home" aria-expanded="true">
+          <span>Properties</span> <span class="badge badge-pill badge-light ml-2">{{ node.properties.length }}</span>
+        </a>
+      <a class="nav-item nav-link" id="incoming-tab" data-toggle="tab" href="#nav-incoming" role="tab" aria-controls="nav-incoming">
+          <span>Incoming Relationships</span> <span class="badge badge-pill badge-light ml-2">{{ edges.incoming.length }}</span>
+        </a>
+      <a class="nav-item nav-link" id="outgoing-tab" data-toggle="tab" href="#nav-outgoing" role="tab" aria-controls="nav-outgoing">
+          <span>Outgoing Relationships</span> <span class="badge badge-pill badge-light ml-2">{{ edges.outgoing.length }}</span>
+        </a>
+    </nav>
+
+    <div class="tab-content" id="node-tabs">
+
+      <div class="tab-pane fade show active" id="nav-properties" role="tabpanel" aria-labelledby="properties-tab">
+
+        <div class="py-2">
+          <label class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" ng-model="hideDeleted" />
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">Hide deleted properties</span>
+            </label>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th class="w-100">Value</th>
+              <th>Status</th>
+              <th class="text-right">
+                <button class="btn btn-sm btn-link text-secondary p-0" ng-click="newProperty()"><span class="oi oi-plus"></span></button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="prop in node.properties | orderBy: 'name'" ng-hide="prop.deleted && hideDeleted">
+              <th scope="row" ng-class="{'text-muted text-strikethrough': prop.deleted}">{{ prop.name }}</th>
+              <td ng-class="{'text-muted text-strikethrough': prop.deleted}">
+                <property-editor ng-model="prop.value"></property-editor>
+              </td>
+              <td>
+                <span class="d-inline">
+                    <span ng-if="prop.deleted" class="badge badge-secondary px-2 w-100">DEL</span>
+                <span ng-if="prop.modified" class="badge badge-info px-2 w-100">MOD</span>
+                <span ng-if="!prop.original" class="badge badge-info px-2 w-100">NEW</span>
+                </span>
+              </td>
+              <td class="text-nowrap text-right">
+                <button class="btn btn-sm btn-link text-secondary p-0" ng-click="deleteProperty(prop.name)"><span class="oi oi-circle-x"></span></button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tab-pane fade" id="nav-incoming" role="tabpanel" aria-labelledby="incoming-tab">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="text-nowrap">Relationship Type</th>
+              <th class="text-nowrap">Target Node Type</th>
+              <th class="text-nowrap w-100">Target Node Properties</th>
+              <th class="text-right">
+                <button class="btn btn-sm btn-link text-secondary p-0"><span class="oi oi-plus"></span></button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="conn in edges.incoming">
+              <th>{{ conn.rel.type }}</th>
+              <th>{{ conn.node.type }}</th>
+              <td>{{ conn.node.properties }}</td>
+              <td class="text-right">
+                <span class="">
+                    <button class="btn btn-sm btn-link text-secondary p-0"><span class="oi oi-circle-x"></span></button>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tab-pane fade" id="nav-outgoing" role="tabpanel" aria-labelledby="outgoing-tab">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th class="text-nowrap">Relationship Type</th>
+              <th class="text-nowrap">Target Node Type</th>
+              <th class="text-nowrap w-100">Target Node Properties</th>
+              <th class="text-right">
+                <button class="btn btn-sm btn-link text-secondary p-0"><span class="oi oi-plus"></span></button>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="conn in edges.outgoing">
+              <th>{{ conn.rel.type }}</th>
+              <th>{{ conn.node.type }}</th>
+              <td>{{ conn.node.properties }}</td>
+              <td class="text-right">
+                <span class="">
+                    <button class="btn btn-sm btn-link text-secondary p-0"><span class="oi oi-circle-x"></span></button>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </fieldset>
+
+</div>

@@ -1,0 +1,37 @@
+<h3>{{ import.properties.name }} <small class="text-muted">{{ import.id }}</small></h3>
+
+<p>
+  <button class="btn btn-default" ng-click="run()"><i class="fa fa-play"></i></button>
+</p>
+
+<div>
+
+  <nav class="nav nav-pills nav-fill mb-3" id="import" role="tablist">
+    <a class="nav-item nav-link active p-2" id="imports-tab" data-toggle="tab" href="#nav-imports" role="tab" aria-controls="nav-imports" aria-expanded="true">
+        <span>Import Cypher scripts</span> <span class="badge badge-pill badge-light ml-2">{{ import.properties.import.length }}</span>
+      </a>
+    <a class="nav-item nav-link" id="nodes-tab" data-toggle="tab" href="#nav-nodes" role="tab" aria-controls="nav-nodes">
+        <span>Nodes SQL scripts</span> <span class="badge badge-pill badge-light ml-2">{{ import.properties.nodes.length }}</span>
+      </a>
+    <a class="nav-item nav-link" id="edges-tab" data-toggle="tab" href="#nav-edges" role="tab" aria-controls="nav-edges">
+        <span>Edges SQL scripts</span> <span class="badge badge-pill badge-light ml-2">{{ import.properties.edges.length }}</span>
+      </a>
+  </nav>
+
+  <div class="tab-content" id="import-tabs">
+
+    <div class="tab-pane fade show active" id="nav-imports" role="tabpanel" aria-labelledby="imports-tab">
+      <div ng-repeat="script in import.properties.import" class="list-group-item" ng-init="style = 'list-group-item-' + progress" ng-class="style">{{ script }}</div>
+    </div>
+
+    <div class="tab-pane fade" id="nav-nodes" role="tabpanel" aria-labelledby="nodes-tab">
+      <div ng-repeat="script in import.properties.nodes" class="list-group-item" ng-init="style = 'list-group-item-' + progress" ng-class="style">{{ script }}</div>
+    </div>
+
+    <div class="tab-pane fade" id="nav-edges" role="tabpanel" aria-labelledby="edges-tab">
+      <div ng-repeat="script in import.properties.edges" class="list-group-item" ng-init="style = 'list-group-item-' + progress" ng-class="style">{{ script }}</div>
+    </div>
+
+  </div>
+
+</div>

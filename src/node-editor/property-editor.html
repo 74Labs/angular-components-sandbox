@@ -1,0 +1,8 @@
+<p ng-if="!isArray" class="w-100 mb-0">
+  <span ng-if="!isArray && editor == 'text'" class="w-100" editable-text="value" e-rows="5" e-style="width: 100%">{{ value || 'empty' }}</span>
+  <span ng-if="!isArray && editor == 'textarea'" class="w-100" editable-textarea="value" e-rows="5" e-style="width: 100%">{{ value || 'empty' }}</span>
+  <span class="badge badge-light">{{ editor }}</span>
+</p>
+<array-editor ng-if="isArray" items="value" editor="editor">
+  <span class="badge badge-light">multi</span><span class="badge badge-light">{{ editor }}</span>
+</array-editor>

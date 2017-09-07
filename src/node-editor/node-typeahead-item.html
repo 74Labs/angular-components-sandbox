@@ -1,0 +1,8 @@
+<div tabindex="-1">
+  <div>
+    <span ng-bind-html="match.label | uibTypeaheadHighlight:query" ng-attr-title="{{match.label}}"></span>
+  </div>
+  <div>
+  </div>
+  <div><span class="badge badge-light text-muted" ng-bind="match.model.type"></span> <small class="text-muted">{{ match.model.description || 'No description' }}</small></div>
+</div>

@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "angular"
+  ],
+  "rules": {
+    "angular/no-service-method": 0,
+    "linebreak-style": ["error", "unix"],
+    "padded-blocks": ["error", { "switches": "never", "classes": "always"}],
+    "space-before-function-paren": ["warn"],
+    "no-unused-vars": ["warn"]
+  }
+}

@@ -1,0 +1,32 @@
+<div class="form-row">
+
+  <div class="col">
+
+    <form>
+      <div class="form-group">
+          <input type="text" class="form-control form-control-sm" ng-model="$ctrl.node" ng-model-options="{ debounce: 300 }"
+            uib-typeahead="node as node.properties.name for node in $ctrl.findNodes($viewValue)"
+            typeahead-loading="searchingNodes" typeahead-no-results="noNodesFound" typeahead-editable="false"
+            typeahead-select-on-exact="false" typeahead-select-on-blur="false" typeahead-wait-ms="200"
+            typeahead-popup-template-url="node-editor/angular-ui-bootstrap-typeahead-popup.html"
+            typeahead-template-url="node-editor/node-typeahead-item.html" />
+          <small ng-show="searchingNodes">Searching... <span class="loader oi oi-reload"></span></small>
+          <small ng-show="noNodesFound" class="text-danger">No results found</small>
+      </div>
+    </form>
+
+  </div>
+
+  <div class="col-lg-1">
+
+    <form ng-submit="$ctrl.findNode()">
+      <div class="input-group input-group-sm">
+        <input class="form-control" type="text" placeholder="Search by ID" aria-label="Search" ng-model="$ctrl.nodeId" />
+      </div>
+    </form>
+
+  </div>
+
+</div>
+
+<node-editor node="$ctrl.node"></node-editor>

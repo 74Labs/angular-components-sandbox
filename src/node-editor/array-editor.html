@@ -1,0 +1,21 @@
+<table class="table table-condensed mb-0">
+  <thead>
+    <tr>
+      <th class="border-top-0 w-100 pl-0 pt-0"><small>{{ items.length }}&nbsp;items</small>
+        <ng-transclude/>
+      </th>
+      <th class="border-top-0 pr-0 pt-0"><button class="btn btn-sm btn-link text-secondary p-0" ng-click="newItem()"><span class="oi oi-plus"></span></button></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr ng-repeat="item in items track by $index">
+      <td class="pl-0" ng-class="{'pb-0': $last}">
+        <span ng-if="editor == 'text'" class="w-100" editable-text="item" e-rows="5" e-style="width: 100%">{{ item || 'empty' }}</span>
+        <span ng-if="editor == 'textarea'" class="w-100" editable-textarea="item" e-rows="5" e-style="width: 100%">{{ item || 'empty' }}</span>
+      </td>
+      <td class="pr-0" ng-class="{'pb-0': $last}">
+        <button class="btn btn-sm btn-link text-secondary p-0" ng-click="deleteItem($index)"><span class="oi oi-circle-x"></span></button>
+      </td>
+    </tr>
+  </tbody>
+</table>
